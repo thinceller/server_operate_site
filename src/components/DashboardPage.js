@@ -35,8 +35,11 @@ class DashboardPage extends React.Component {
     });
   }
 
-  postServerOperate = action => {
-    console.log(action);
+  postServerOperate = async action => {
+    this.roadingPage();
+    const res = await AwsService.operateServer(action);
+    console.log(res);
+    this.setServerStatus();
   }
 
   roadingPage = () => {

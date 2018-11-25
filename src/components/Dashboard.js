@@ -18,12 +18,12 @@ const Dashboard = props => {
       <IconButton aria-label="reload" onClick={onReloadButtonClick} size="large">
         <Refresh color="primary" />
       </IconButton>
-      <Typography variant="h4" align="left">
-        Server is {props.serverStatusName}.
+      <Typography variant="h2" align="left" gutterBottom color="primary">
+        Server is <span className="headline__status">{props.serverStatusName}</span>.
       </Typography>
       {props.ipAddress
-        ? <Typography variant="h4" align="left">
-            IP アドレス: {props.ipAddress}
+        ? <Typography variant="h4" align="left" color="secondary">
+            IPアドレス: {props.ipAddress}
           </Typography>
         : ''
       }

@@ -6,6 +6,8 @@ import {
   Select
 } from '@material-ui/core';
 
+import './OperateForm.css';
+
 class OperateForm extends React.Component {
   constructor(props) {
     super(props);
@@ -14,30 +16,38 @@ class OperateForm extends React.Component {
     }
   }
 
-  handleChange = e => {
+  handleSelectChange = e => {
     const { value } = e.target;
     this.setState({ value });
   };
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.state.value === '' || !window.confirm('本当に実行しますか？')) {
+      return;
+    }
     this.props.postServerOperate(this.state.value);
+    this.setState({ isModalOpen: false });
   };
 
   render() {
     return (
-      <div>
-        <FormControl>
-          <Select
-            onChange={this.handleChange}
-            value={this.state.value}
-          >
-            <MenuItem value="start">起動</MenuItem>
-            <MenuItem value="stop">停止</MenuItem>
-          </Select>
-        </FormControl>
-        <Button variant="contained" color="default" onClick={this.handleChange}>
-          実行
-        </Button>
+      <div className="operate__form">
+        <form onSubmit={this.handleSubmit}>
+          <FormControl variant="filled">
+            <Select
+              onChange={this.handleSelectChange}
+              value={this.state.value}
+              className="form__select"
+            >
+              <MenuItem value="start">起動</MenuItem>
+              <MenuItem value="stop">停止</MenuItem>
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="default" type="submit">
+            実行
+          </Button>
+        </form>
       </div>
     );
   }
