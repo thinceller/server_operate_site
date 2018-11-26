@@ -21,11 +21,8 @@ const Dashboard = props => {
 
   return (
     <div>
-      <IconButton aria-label="reload" onClick={onReloadButtonClick} size="large">
-        <Refresh color="primary" />
-      </IconButton>
       <Typography variant="h2" align="left" gutterBottom color="primary">
-        Server is <span className="headline__status">{props.serverStatusName}</span>.
+        Server is {props.serverStatusName}.
       </Typography>
       {props.ipAddress
         ? <div className="ip__address">
@@ -50,6 +47,12 @@ const Dashboard = props => {
         : ''
       }
       <OperateForm {...props} />
+      <span>
+        更新
+        <IconButton aria-label="reload" onClick={onReloadButtonClick} size="large">
+          <Refresh color="primary" />
+        </IconButton>
+      </span>
     </div>
   );
 }
