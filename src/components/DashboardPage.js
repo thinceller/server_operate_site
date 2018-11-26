@@ -70,7 +70,8 @@ class DashboardPage extends React.Component {
       { ...this.state },
       { setServerStatus: this.setServerStatus },
       { postServerOperate: this.postServerOperate },
-      { roadingPage: this.roadingPage }
+      { roadingPage: this.roadingPage },
+      { addNotification: this.addNotification }
     );
     return (
       <div className="dashboard__page">
