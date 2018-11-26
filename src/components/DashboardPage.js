@@ -1,8 +1,10 @@
 import React from 'react';
+import NotificationSystem from 'react-notification-system';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Dashboard from './Dashboard';
 import AwsService from '../services/AwsService';
+import notificationType from '../services/notificationType';
 import './DashboardPage.css'
 
 class DashboardPage extends React.Component {
@@ -14,6 +16,7 @@ class DashboardPage extends React.Component {
       ipAddress: '',
       isPageLoading: true
     }
+    this.notificationSystem = React.createRef();
   }
 
   componentDidMount() {
@@ -33,18 +36,33 @@ class DashboardPage extends React.Component {
       ipAddress: body.PublicIpAddress || '',
       isPageLoading: false
     });
-  }
+  };
 
   postServerOperate = async action => {
     this.roadingPage();
+    const preType = action === 'start' ? 'starting' : 'stopping';
+    this.addNotification(preType);
     const res = await AwsService.operateServer(action);
     console.log(res);
+    const type = action === 'start' ? 'started' : 'stopped';
+    this.addNotification(type);
     this.setServerStatus();
-  }
+  };
 
   roadingPage = () => {
-    this.setState({ isPageLoading: true })
-  }
+    this.setState({ isPageLoading: true });
+  };
+
+  addNotification = type => {
+    const { title, message, level } = notificationType(type);
+    const notification = this.notificationSystem.current;
+    notification.addNotification({
+      position: 'tr',
+      title,
+      message,
+      level
+    })
+  };
 
   render() {
     const props = Object.assign(
@@ -60,6 +78,7 @@ class DashboardPage extends React.Component {
           ? <CircularProgress />
           : <Dashboard {...props} />
         }
+        <NotificationSystem ref={this.notificationSystem} />
       </div>
     );
   }
