@@ -1,3 +1,16 @@
 .dashboard__page {
   margin: 30px
 }
+
+.ip__address {
+  display: inline-block;
+}
+
+.ip__address__text {
+  float: left;
+  vertical-align: middle;
+}
+
+.ip__address__copy {
+  margin-left: 20px;
+}
