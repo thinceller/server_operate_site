@@ -4,6 +4,7 @@
 
 .ip__address {
   display: inline-block;
+  margin-bottom: 0.35em;
 }
 
 .ip__address__text {
@@ -13,4 +14,8 @@
 
 .ip__address__copy {
   margin-left: 20px;
+}
+
+.zabbix__server {
+  margin-bottom: 0.35em;
 }

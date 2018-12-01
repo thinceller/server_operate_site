@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 
 import OperateForm from './OperateForm';
+import ZabbixServer from './ZabbixServer';
 
 const Dashboard = props => {
   const onReloadButtonClick = () => {
@@ -21,9 +22,9 @@ const Dashboard = props => {
 
   return (
     <div>
-      <Typography variant="h2" align="left" gutterBottom color="primary">
+      <span className="MuiTypography-root-41 MuiTypography-h2-54 MuiTypography-colorPrimary-71 MuiTypography-gutterBottom-68 MuiTypography-alignLeft-63">
         Server is {props.serverStatusName}.
-      </Typography>
+      </span>
       {props.ipAddress
         ? <div className="ip__address">
             <Typography
@@ -44,6 +45,10 @@ const Dashboard = props => {
               </Button>
             </CopyToClipboard>
           </div>
+        : ''
+      }
+      {props.isZabbixServer
+        ? <ZabbixServer {...props} />
         : ''
       }
       <OperateForm {...props} />
