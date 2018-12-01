@@ -6,9 +6,9 @@ const CLIENT_USER = {
 }
 
 class ZabbixService {
-  constructor(ipAddress) {
+  constructor() {
     this.auth = null
-    this.baseUrl = `https://${ipAddress}/zabbix/api_jsonrpc.php`;
+    this.baseUrl = `https://thinceller.ddns.net/zabbix/api_jsonrpc.php`;
     this.client = axios.create({
       baseURL: this.baseUrl,
       headers: { 'Content-Type': 'application/json-rpc' }

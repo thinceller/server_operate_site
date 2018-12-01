@@ -36,7 +36,7 @@ class DashboardPage extends React.Component {
     console.log(body);
     const { Code, Name, PublicIpAddress } = body;
     if (PublicIpAddress && PublicIpAddress !== this.state.ipAddress) {
-      this.zabbixClient = new ZabbixService(PublicIpAddress);
+      this.zabbixClient = new ZabbixService();
       this.setState({ isZabbixServer: true });
     } else if (this.state.isZabbixServer && !PublicIpAddress) {
       this.setState({ isZabbixServer: false });
