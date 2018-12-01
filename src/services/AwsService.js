@@ -9,7 +9,7 @@ aws.config.update({
 class AwsService {
   constructor() {
     this.lambda = new aws.Lambda();
-    this.lambdaName = 'minecraft_server_operate'
+    this.lambdaName = 'minecraft_server_operate';
   }
 
   /**

@@ -5,6 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Dashboard from './Dashboard';
 import AwsService from '../services/AwsService';
 import notificationType from '../services/notificationType';
+import ZabbixService from '../services/ZabbixServise';
 import './DashboardPage.css'
 
 class DashboardPage extends React.Component {
@@ -14,13 +15,16 @@ class DashboardPage extends React.Component {
       serverStatus: null,
       serverStatusName: '',
       ipAddress: '',
-      isPageLoading: true
+      onlineUserNum: null,
+      isPageLoading: true,
+      isZabbixServer: false
     }
     this.notificationSystem = React.createRef();
+    this.zabbixClient = null;
   }
 
   componentDidMount() {
-    this.setServerStatus()
+    this.setServerStatus();
   }
 
   /**
@@ -28,14 +32,22 @@ class DashboardPage extends React.Component {
    */
   setServerStatus = async () => {
     const res = await AwsService.getServerStatus();
-    console.log(res);
     const { body } = JSON.parse(res.Payload);
+    console.log(body);
+    const { Code, Name, PublicIpAddress } = body;
+    if (PublicIpAddress && PublicIpAddress !== this.state.ipAddress) {
+      this.zabbixClient = new ZabbixService(PublicIpAddress);
+      this.setState({ isZabbixServer: true });
+    } else if (this.state.isZabbixServer && !PublicIpAddress) {
+      this.setState({ isZabbixServer: false });
+    }
     this.setState({
-      serverStatus: body.Code,
-      serverStatusName: body.Name,
-      ipAddress: body.PublicIpAddress || '',
+      serverStatus: Code,
+      serverStatusName: Name,
+      ipAddress: PublicIpAddress || '',
       isPageLoading: false
     });
+    if (this.state.isZabbixServer) setTimeout(() => this.fetchOnlineUserNum(), 1000);
   };
 
   postServerOperate = async action => {
@@ -47,6 +59,20 @@ class DashboardPage extends React.Component {
     const type = action === 'start' ? 'started' : 'stopped';
     this.addNotification(type);
     this.setServerStatus();
+  };
+
+  fetchOnlineUserNum = () => {
+    const method = 'item.get';
+    const params = {
+      host: 'MinecraftServer',
+      search: { name: 'User' }
+    };
+    this.zabbixClient.request(method, params)
+      .then(data => {
+        if (data) {
+          this.setState({ onlineUserNum: data[0].lastvalue });
+        }
+      });
   };
 
   roadingPage = () => {
