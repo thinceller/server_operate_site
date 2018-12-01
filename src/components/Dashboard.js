@@ -22,9 +22,9 @@ const Dashboard = props => {
 
   return (
     <div>
-      <span className="MuiTypography-root-41 MuiTypography-h2-54 MuiTypography-colorPrimary-71 MuiTypography-gutterBottom-68 MuiTypography-alignLeft-63">
+      <Typography variant="h2" align="left" gutterBottom color="primary">
         Server is {props.serverStatusName}.
-      </span>
+      </Typography>
       {props.ipAddress
         ? <div className="ip__address">
             <Typography
